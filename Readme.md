@@ -23,7 +23,9 @@
       npm run dev
     ```
 4. For displaying data open a web browser and type `http://localhost:5000/people`
-![alt text](image.png)  
+ ![alt text](image.png)  
+
   * The data will be displayed on terminal too.
-![alt text](image-1.png)
+
+ ![alt text](image-1.png)
 
