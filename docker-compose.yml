@@ -1,0 +1,40 @@
+version: '3'
+services:
+  api:
+    build:
+      context: .
+      args:
+        - NODE_ENV=development
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/api
+      - /api/node_modules
+    environment:
+      - PORT=5000
+      - NODE_ENV=development
+    depends_on:
+      - db
+    links:
+      - db
+    networks:
+      - api-net
+    command: npm run dev
+    restart: unless-stopped
+  db:
+    image: mongo:8.0.4
+    env_file:
+      - .env
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: $MONGO_USER
+      MONGO_INITDB_ROOT_PASSWORD: $MONGO_PASSWORD
+    volumes:
+      - mongodata:/data/db
+    networks:
+      - api-net
+volumes:
+  mongodata:
+networks:
+  api-net:
