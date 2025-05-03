@@ -5,13 +5,15 @@ import {Status} from '../enum/person.status'
 const filePath: string = 'data.json'
 
 export function getPeopleData (property?: string) {
+  
   let dataWithDate: IPerson [] = []
   let date = new Date()
   try{
     const dataJson = readData(filePath)
+    
     /*Iterating through the array and adding date for every object */
     for (const person of dataJson) {
-        person.date = date.toDateString()      
+        if(!person.date) person.date = date.toDateString()      
         dataWithDate.push(person)
     }
     /*Rewriting json file with 'date' property */
@@ -23,8 +25,10 @@ export function getPeopleData (property?: string) {
      return sortedArr
     }
     
-    if(filteredArr.length === 0) return 0
-
+    if(filteredArr.length === 0) return 'No records founded'
+    
+    console.log(filteredArr); 
+    
     return filteredArr
   } catch(error) {
     console.log(error);

@@ -4,9 +4,11 @@ import { StatusCodes } from 'http-status-codes'
 const peopleRouter = express.Router()
 
 peopleRouter.get('/', (req: Request, res: Response) => {
+
+    const sort:string = (req.query.sort)?.toString()!
+    
     try {
-      const getAllData = getPeopleData()
-      console.log(getAllData);
+      const getAllData = getPeopleData(sort)
       
       res.status(StatusCodes.OK).json({ people: getAllData})
       return

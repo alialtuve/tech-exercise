@@ -1,23 +1,41 @@
 import express from 'express';
+import dotenv from 'dotenv';
+import { client } from './config/config';
 import { loadData } from './data'
-import routes from './person'
+import { loadDbData } from './config/load-data'
+import routes from './routes'
 
+dotenv.config();
 const app = express()
 
-const PORT = 5000
+const { PORT } = process.env
 
 app.use(express.json())
 
-app.get('/', (req, res) => {
-  res.send('<h1> Tech exercise </h1>')
+app.get('/', async (req: any, res: any) => {
+  return res.send(' PEOPLE PREFERENCES APP ')
 })
 
 // Loading initial data
+// No persisted data
 loadData()
-
+// Persisted data - load data to database
+loadDbData()
 // Router
 app.use(routes)
 
-app.listen(PORT, () => {
-  return console.log(`Tech app running on PORT ... ${PORT}`);
-})
+/* Connect to mongo*/
+async function start() {
+    try {
+      await client
+      console.log('Connected to mongo!!');
+      app.listen(PORT, () => {
+        return console.log(`Server running on PORT... ${PORT}`);
+      })
+    } catch (error) {
+      console.log(error);
+    }
+}
+
+
+start()
